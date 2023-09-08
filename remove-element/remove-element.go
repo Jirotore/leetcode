@@ -7,11 +7,13 @@ func removeElement(nums []int, val int) int {
             k++
             continue
         }
+
         if nums[i] == val {
             nums[i], nums[j] = nums[j], nums[i]
             j--
             k++
         }
+
         i++
     }
 
