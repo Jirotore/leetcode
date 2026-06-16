@@ -1,31 +1,25 @@
 func longestPalindrome(s string) string {
-	// srune := []rune(s)
-    if len(s) < 2 {
-        return s
-    }
-	var longest string
-    for i := 0; i < len(s); i++ {
-		for j := i; j < len(s); j++ {
-            buf := s[i:j+1]
-			if !check(buf) {
-				continue
-			}
-			if len(longest) < len(buf) {
-				longest = buf
-			}
-		}
+	if len(s) < 2 {
+		return s
 	}
-	return string(longest)
-}
 
-func check(s string) bool {
-	i, j := 0, len(s)-1
-	for i < j {
-		if s[i] != s[j] {
-			return false
+	start, maxlen := 0, 0
+	check := func(left, right int) {
+		for left >= 0 && right < len(s) && s[left] == s[right] {
+			left--
+			right++
 		}
-		i++
-		j--
+		current := right - left - 1
+		if current > maxlen {
+			maxlen = current
+			start = left + 1
+		}
 	}
-	return true
+
+	for i := 0; i < len(s); i++ {
+		check(i, i)
+		check(i, i+1)
+	}
+
+	return s[start : start+maxlen]
 }
